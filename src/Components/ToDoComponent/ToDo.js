@@ -2,22 +2,42 @@ import React, { useEffect, useState } from 'react';
 import DataGridComponent from '../DataGridComponent/DataGridComponent';
 import ToDoCreateForm from './ToDoCreateForm';
 
-let colData = [
-  {
-    field: 'id',
-    headerName: 'Id',
-    width: 100,
-    editable: false,
-  },
-  {
-    field: 'title',
-    headerName: 'Title',
-    width: 500,
-    editable: true,
-  },
-];
-
 function ToDo() {
+  let colData = [
+    {
+      field: 'id',
+      headerName: 'Id',
+      width: 100,
+      editable: false,
+    },
+    {
+      field: 'title',
+      headerName: 'Title',
+      width: 500,
+      editable: true,
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 140,
+      renderCell: (params) => {
+        const onClick = (e) => {
+          e.stopPropagation();
+          if (!params.row.status) {
+            let temp = [...listOfItems];
+            temp = temp.filter((item) => item.id !== params.id);
+            setListOfItems(temp);
+          }
+        };
+
+        return (
+          <button className='btn' onClick={onClick}>
+            Completed
+          </button>
+        );
+      },
+    },
+  ];
   const [item, setItem] = useState('');
 
   //to fetch the items from localStorage if there are any
@@ -34,7 +54,11 @@ function ToDo() {
   useEffect(() => {
     if (item) {
       let temp = [...listOfItems];
-      temp.push({ id: listOfItems.length + 1, title: item });
+      temp.push({
+        id: listOfItems.length + 1,
+        title: item,
+        status: false,
+      });
       setListOfItems(temp);
       setItem('');
     }

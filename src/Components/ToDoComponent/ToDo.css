@@ -11,3 +11,12 @@
   border-radius: 5px;
   margin-top: 8px;
 }
+
+.btn {
+  background: #33dd63;
+  color: #fff;
+  height: 40px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
